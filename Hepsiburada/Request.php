@@ -97,6 +97,38 @@
             }
         }
 
+        public function post_body($url = null, $post_data = null, $headers = null){
+            try{
+
+                $headers = $headers ?? $this->ready_header();
+
+                $headers['Content-Type'] = 'application/x-www-form-urlencoded';
+
+                $options = [
+                    'headers' => $headers,
+                    'body'    => ($post_data ?? null),
+                    'version' => 2,
+                    'curl'    => [
+                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_2_0,
+                    ],
+                ];
+
+                $res = $this->client->post($url, $options);
+                return [
+                    'status'  => 'ok',
+                    'headers' => $res->getHeaders() ?? null,
+                    'body'    => $res->getBody()->getContents(),
+                ];
+            }catch(GuzzleException $exception){
+                return [
+                    'status'  => 'fail',
+                    'message' => $exception->getMessage() ?? 'Empty',
+                    'headers' => $exception->getResponse()->getHeaders() ?? null,
+                    'body'    => $exception->getResponse()->getBody()->getContents() ?? null,
+                ];
+            }
+        }
+
         public function post_multipart($url = null, $post_data = null, $headers = null){
             try{
 

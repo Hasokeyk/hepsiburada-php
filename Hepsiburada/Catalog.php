@@ -1,14 +1,18 @@
 <?php
 
+    /*
+     * Soruce : https://developers.hepsiburada.com/?docs=dokuman/entegrasyon
+     */
+
     namespace Hasokeyk\Hepsiburada;
 
     use Exception;
 
     class Catalog{
 
-        public $test_url = 'https://mpop-sit.hepsiburada.com';
-        public $live_url = 'https://mpop.hepsiburada.com';
-        public $url;
+        private $test_url = 'https://mpop-sit.hepsiburada.com';
+        private $live_url = 'https://mpop.hepsiburada.com';
+        private $url;
 
         private $request;
 
@@ -197,5 +201,59 @@
             }
         }
 
+        public function get_product_status($tracking_id = null, $page = 0, $size = 20){
+
+            if(empty($tracking_id)){
+                throw new Exception('"tracking_id" value none empty');
+            }
+
+            if(!is_numeric($page)){
+                throw new Exception('"page" value none numaric');
+            }
+
+            if(!is_numeric($size)){
+                throw new Exception('"size" value none numaric');
+            }
+            else if($size > 1000){
+                throw new Exception('"size" cannot be greater than 1000');
+            }
+            else if($size < 0){
+                throw new Exception('"size" cannot be less than 0');
+            }
+
+            try{
+                $url     = $this->url.'/product/api/products/status/'.$tracking_id.'?page='.$page.'&size='.$size.'&version=1';
+                $request = $this->request->get($url);
+                return json_decode($request['body']);
+            }catch(Exception $err){
+                print_r($err->getMessage());
+            }
+        }
+
+        public function get_tracking_history($page = 0, $size = 20){
+
+            if(!is_numeric($page)){
+                throw new Exception('"page" value none numaric');
+            }
+
+            if(!is_numeric($size)){
+                throw new Exception('"size" value none numaric');
+            }
+            else if($size > 1000){
+                throw new Exception('"size" cannot be greater than 1000');
+            }
+            else if($size < 0){
+                throw new Exception('"size" cannot be less than 0');
+            }
+
+            try{
+                $url     = $this->url.'/product/api/products/trackingId-history?version=2&page='.$page.'&size='.$size.'&sort=createdAt,desc';
+                $request = $this->request->get($url);
+                return json_decode($request['body']);
+            }catch(Exception $err){
+                print_r($err->getMessage());
+            }
+
+        }
 
     }

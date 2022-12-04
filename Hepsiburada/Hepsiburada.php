@@ -11,6 +11,7 @@
 
         public $request;
         public $catalog;
+        public $listing;
 
         public function __construct($merchant_id = null, $username = null, $password = null, $test_mode = false){
             $this->merchant_id = $merchant_id;
@@ -20,6 +21,7 @@
 
             $this->request = $this->Request();
             $this->catalog = $this->Catalog();
+            $this->listing = $this->Listing();
         }
 
         private function Request(): Request{
@@ -28,5 +30,9 @@
 
         private function Catalog(): Catalog{
             return new Catalog($this->request, $this->test_mode);
+        }
+
+        private function Listing(): Listing{
+            return new Listing($this->request, $this->test_mode);
         }
     }
