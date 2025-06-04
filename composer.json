@@ -1,5 +1,6 @@
 {
   "name": "hasokeyk/hepsiburada-api-php",
+  "description": "A PHP client for Hepsiburada API.",
   "authors": [
     {
       "name": "Hasan Yüksektepe",
@@ -10,18 +11,23 @@
   ],
   "type": "library",
   "keywords": [
-    "Hepsiburada"
+    "Hepsiburada",
+    "API",
+    "PHP",
+    "Client"
   ],
   "homepage": "https://hayatikodla.net",
   "license": "MIT",
   "minimum-stability": "stable",
   "require": {
+    "php": ">=7.4",
     "guzzlehttp/guzzle": "^7.4.2",
-    "ext-json": "*"
+    "ext-json": "*",
+    "ext-curl": "*"
   },
   "autoload": {
     "psr-4": {
-      "Hasokeyk\\Hepsiburada\\": "Hepsiburada"
+      "Hasokeyk\\Hepsiburada\\": "src/Hepsiburada"
     }
   }
 }
